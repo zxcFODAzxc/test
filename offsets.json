@@ -2,7 +2,7 @@
   "client_dll": {
     "data": {
       "dwEntityList": {
-        "value": 0,
+        "value": 00000000,
         "comment": null
       },
       "dwForceAttack": {
