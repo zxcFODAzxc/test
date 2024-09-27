@@ -1,1 +1,1 @@
-DATABASE
+Foda:Dedsec:Admin=true:Banned=false
