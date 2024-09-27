@@ -1,1 +1,2 @@
 Foda:Dedsec:Admin=true:Banned=true
+asd:123:Admin=false:Banned=false
