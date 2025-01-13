@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чит Меню</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        #circle {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            touch-action: none; /* Отключаем стандартные действия при касании */
+        }
+        #menu {
+            display: none;
+            position: absolute;
+            width: 200px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            touch-action: none; /* Отключаем стандартные действия при касании */
+        }
+    </style>
+</head>
+<body>
+
+<div id="circle"></div>
+<div id="menu">
+    <h3>Меню</h3>
+    <div class="option">
+        <input type="checkbox" id="option1">
+        <label for="option1">Опция 1</label>
+    </div>
+    <div class="option">
+        <input type="checkbox" id="option2">
+        <label for="option2">Опция 2</label>
+    </div>
+    <div class="option">
+        <input type="checkbox" id="option3">
+        <label for="option3">Опция 3</label>
+    </div>
+</div>
+
+<script>
+    const circle = document.getElementById('circle');
+    const menu = document.getElementById('menu');
+    let isDraggingCircle = false;
+    let isDraggingMenu = false;
+    let offsetX, offsetY;
+
+    // Перетаскивание кружка
+    circle.addEventListener('touchstart', (e) => {
+        isDraggingCircle = true;
+        const touch = e.touches[0];
+        offsetX = touch.clientX - circle.getBoundingClientRect().left;
+        offsetY = touch.clientY - circle.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (isDraggingCircle) {
+            const touch = e.touches[0];
+            circle.style.left = `${touch.clientX - offsetX}px`;
+            circle.style.top = `${touch.clientY - offsetY}px`;
+        } else if (isDraggingMenu) {
+            const touch = e.touches[0];
+            menu.style.left = `${touch.clientX - offsetX}px`;
+            menu.style.top = `${touch.clientY - offsetY}px`;
+        }
+    });
+
+    document.addEventListener('touchend', () => {
+        isDraggingCircle = false;
+        isDraggingMenu = false;
+    });
+
+    // Открытие меню
+    circle.addEventListener('click', (e) => {
+        e.stopPropagation(); // Остановить всплытие события
+        menu.style.display = 'block';
+        menu.style.left = `${circle.getBoundingClientRect().left}px`;
+        menu.style.top = `${circle.getBoundingClientRect().bottom}px`;
+        circle.style.display = 'none'; // Скрыть кружок
+    });
+
+    // Закрытие меню при клике вне
+    document.addEventListener('click', () => {
+        menu.style.display = 'none'; // Закрыть меню при клике вне
+        circle.style.display = 'block'; // Показать кружок
+    });
+
+    // Двойной тап для скрытия меню
+    let lastTap = 0;
+    document.addEventListener('touchend', (e) => {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 300 && tapLength > 0) {
+            // Двойной тап
+            menu.style.display = 'none'; // Скрыть меню
+            circle.style.display = 'block'; // Показать кружок
+        }
+        lastTap = currentTime;
+    });
+
+    // Перетаскивание меню
+    menu.addEventListener('touchstart', (e) => {
+        isDraggingMenu = true;
+        const touch = e.touches[0];
+        offsetX = touch.clientX - menu.getBoundingClientRect().left;
+        offsetY = touch.clientY - menu.getBoundingClientRect().top;
+    });
+</script>
+
+</body>
+</html>
