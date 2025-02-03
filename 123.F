@@ -1,1 +1,1 @@
-1
+AMD64Windows10.0.22621AMD64Kirill_Desktop
